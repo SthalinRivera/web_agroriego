@@ -1,41 +1,11 @@
 <script setup lang="ts">
-const colorMode = useColorMode()
-
-const color = computed(() => colorMode.value === 'dark' ? '#1b1718' : 'white')
-
-useHead({
-  meta: [
-    { charset: 'utf-8' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { key: 'theme-color', name: 'theme-color', content: color }
-  ],
-  link: [
-    { rel: 'icon', href: '/favicon.ico' }
-  ],
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
-
-const title = 'QuipuBox-Ierl'
-const description = 'Sistema de trasabildiad '
-
-useSeoMeta({
-  title,
-  description,
-  ogTitle: title,
-  ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/dashboard-light.png',
-  twitterCard: 'summary_large_image'
-})
+useHead({ htmlAttrs: { lang: 'es' }, meta: [{ name: 'theme-color', content: '#173e2e' }] })
+useSeoMeta({ title: 'Agroriego | Riego inteligente', description: 'Plataforma de gestión y monitoreo de riego.' })
 </script>
 
 <template>
   <UApp>
-    <NuxtLoadingIndicator />
-
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <NuxtLoadingIndicator color="#39875a" />
+    <NuxtLayout><NuxtPage /></NuxtLayout>
   </UApp>
 </template>

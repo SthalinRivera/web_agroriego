@@ -1,18 +1,57 @@
 @import "tailwindcss" theme(static);
 @import "@nuxt/ui";
-
-@theme static {
-  --font-sans: 'Public Sans', sans-serif;
-
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
-}
+@theme static { --font-sans: 'Segoe UI', sans-serif; }
+body { margin: 0; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .6; }
+button:focus-visible, a:focus-visible { outline: 3px solid #72a786; outline-offset: 4px; }
+.login-shell { min-height: 100svh; display: grid; grid-template-columns: 1.05fr 1fr; background: #fcfcf9; color: #273b30; }
+.field-panel { position: relative; overflow: hidden; background: #173e2e; color: #f6f8e9; min-height: 760px; padding: 48px 9%; display: flex; flex-direction: column; }
+.brand { display: flex; align-items: center; gap: 12px; font-size: 27px; font-weight: 650; letter-spacing: -.8px; z-index: 2; width: fit-content; }
+.brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #6b8c67; border-radius: 13px; color: #c6d999; }
+.brand-dot { font-size: 12px; align-self: start; padding-top: 8px; }
+.field-copy { margin-top: 100px; position: relative; z-index: 2; }
+.eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; letter-spacing: 2px; color: #c7d7b9; font-weight: 600; }
+.eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #bfd984; }
+.field-copy h1 { font-size: clamp(34px, 3.5vw, 57px); line-height: 1.14; letter-spacing: -2px; font-weight: 500; margin: 28px 0 22px; }
+.field-copy em { color: #c6d999; font-style: normal; }
+.field-copy p { max-width: 350px; font-size: 15px; line-height: 1.8; color: #c3d0c4; }
+.field-tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.field-tags span { display: flex; align-items: center; gap: 7px; font-size: 11px; padding: 8px 11px; border: 1px solid #54715a; border-radius: 30px; color: #d1decb; }
+.landscape { position: absolute; inset: 53% 0 0; overflow: hidden; opacity: .85; }
+.sun { position: absolute; height: 94px; width: 94px; background: #d4dbaa; border-radius: 50%; right: 15%; top: 28%; }
+.hill { position: absolute; width: 150%; height: 100%; border-radius: 50% 50% 0 0; }
+.hill-back { background: #496847; transform: rotate(-15deg); top: 52%; left: -5%; }
+.hill-front { background: #294e34; transform: rotate(17deg); top: 62%; left: -40%; }
+.furrows { position: absolute; inset: 75% -40% -90%; background: repeating-linear-gradient(103deg, transparent 0 35px, #95af6538 36px 38px, transparent 39px 70px); transform: rotate(-15deg); }
+.field-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; padding-top: 130px; position: relative; z-index: 2; font-size: 10px; letter-spacing: .3px; color: #d0d9c4; }
+.form-panel { padding: 44px 10% 28px; display: flex; flex-direction: column; }
+.form-top { display: flex; justify-content: flex-end; align-items: center; gap: 7px; font-size: 9px; letter-spacing: 1.4px; color: #7e897d; }
+.login-form { width: 100%; max-width: 385px; margin: auto; padding: 50px 0; }
+.welcome-icon { display: grid; place-items: center; width: 45px; height: 45px; background: #edf1e8; border: 1px solid #dce5d4; border-radius: 12px; font-size: 22px; color: #41674a; margin-bottom: 28px; }
+.form-kicker { font-size: 9px; letter-spacing: 1.5px; font-weight: 600; color: #798774; }
+.login-form h2 { font-size: 34px; letter-spacing: -1px; font-weight: 600; margin: 9px 0; }
+.form-description { color: #7b8278; font-size: 13px; margin-bottom: 30px; }
+.login-form label { display: block; font-size: 12px; font-weight: 600; margin: 20px 0 9px; }
+.input-wrap { display: flex; align-items: center; gap: 11px; border: 1px solid #dbe0d5; background: #fff; padding: 0 14px; border-radius: 8px; color: #919a8b; }
+.input-wrap:focus-within { outline: 2px solid #709674; outline-offset: 1px; }
+.input-wrap input { border: 0; outline: none; background: transparent; width: 100%; min-width: 0; height: 48px; color: #263a2c; font-size: 13px; }
+.input-wrap input::placeholder { color: #93998e; }
+.show-password { border: 0; background: none; display: grid; place-items: center; padding: 6px; }
+.submit-button, .google-button { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; border-radius: 8px; min-height: 48px; font-size: 12px; font-weight: 600; }
+.submit-button { margin-top: 25px; background: #24513a; color: white; border: 1px solid #24513a; }
+.submit-button:hover { background: #183e2b; }
+.divider { display: flex; align-items: center; gap: 14px; font-size: 11px; color: #92988b; margin: 24px 0; }
+.divider span { flex: 1; height: 1px; background: #e2e5dc; }
+.google-button { border: 1px solid #dbe0d5; background: white; color: #3d493d; }
+.google-button:hover { background: #f0f4ed; }
+.access-note { text-align: center; font-size: 11px; color: #93998d; line-height: 1.9; margin-top: 28px; }
+.access-note strong { color: #596a54; font-weight: 500; }
+.form-footer { display: flex; justify-content: space-between; gap: 16px; font-size: 10px; color: #8c9485; }
+.form-footer span:last-child { display: flex; align-items: center; gap: 5px; }
+.login-error { font-size: 13px; line-height: 1.6; padding: 12px; border: 1px solid #edc9bc; background: #fff2ec; color: #943e29; border-radius: 8px; margin: 16px 0; }
+@media (min-width: 1500px) { .field-panel { padding-left: 13%; } }
+@media (max-width: 900px) { .field-panel { padding: 35px 8%; } .field-copy h1 { font-size: 36px; } .form-panel { padding: 35px 8% 24px; } }
+@media (max-width: 680px) { .login-shell { grid-template-columns: 1fr; } .field-panel { min-height: auto; padding: 25px 7% 30px; } .brand { font-size: 23px; } .field-copy { margin-top: 30px; } .field-copy h1 { font-size: 32px; letter-spacing: -1px; margin: 16px 0 0; } .field-copy p, .field-tags, .field-footer, .landscape, .form-top { display: none; } .form-panel { padding: 30px 7% 24px; } .login-form { padding: 0 0 35px; } .welcome-icon, .form-kicker { display: none; } .login-form h2 { font-size: 28px; } }
+.agro-filter { min-height: 36px; padding: 7px 10px; border: 1px solid var(--ui-border); border-radius: 6px; background: var(--ui-bg); color: var(--ui-text); font-size: 13px; } .agro-filter:focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; }

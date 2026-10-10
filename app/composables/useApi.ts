@@ -1,60 +1,65 @@
-// composables/useApi.ts
+import type { AgroRecord, PageResult } from '~/types/agro'
+
+interface ApiOptions {
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+  query?: Record<string, string | number | boolean | undefined>
+  body?: Record<string, unknown>
+}
+
 export const useApi = () => {
-    const fetchWithAuth = async <T>(
-        url: string,
-        options?: Record<string, any>
-    ): Promise<T> => {
-        if (process.server) {
-            throw new Error('fetchWithAuth solo puede usarse en cliente');
+  const { $supabase } = useNuxtApp()
+  const config = useRuntimeConfig()
+  const { token, user } = useAuth()
+  const request = async <T>(
+    path: string,
+    options: ApiOptions = {}
+  ): Promise<T> => {
+    if (!$supabase) throw new Error('Supabase no está configurado')
+    const { data, error } = await $supabase.auth.getSession()
+    if (error || !data.session) {
+      token.value = null
+      user.value = null
+      await navigateTo('/login')
+      throw new Error('Sesión vencida')
+    }
+    const send = (jwt: string) =>
+      $fetch<T>(
+        `${config.public.apiBase.replace(/\/$/, '')}/${path.replace(/^\//, '')}`,
+        {
+          ...options,
+          timeout: 20000,
+          retry: 0,
+          headers: { Authorization: `Bearer ${jwt}` }
         }
-
-        const { $supabase } = useNuxtApp();
-        if (!$supabase) {
-            throw new Error('Supabase no disponible');
-        }
-
-        // Obtener sesión actual
-        let { data: { session } } = await $supabase.auth.getSession();
-        if (!session?.access_token) {
-            throw new Error('No hay sesión activa');
-        }
-
-        const config = useRuntimeConfig();
-        let base = config.public.apiBase;
-        if (!base.endsWith('/')) base += '/';
-        const fullUrl = `${base}${url.startsWith('/') ? url.slice(1) : url}`;
-
-        const makeRequest = async (token: string): Promise<T> => {
-            const isFormData = options?.body instanceof FormData;
-            const headers: Record<string, string> = {
-                Authorization: `Bearer ${token}`,
-                ...(options?.headers ?? {}),
-            };
-            if (!isFormData) {
-                headers['Content-Type'] = 'application/json';
-            }
-
-            // ✅ Solución: forzar el tipo con "as T"
-            const data = await $fetch(fullUrl, {
-                ...options,
-                headers,
-            });
-            return data as T;
-        };
-
-        try {
-            return await makeRequest(session.access_token);
-        } catch (error: any) {
-            if (error.response?.status === 401) {
-                const { data: refreshed, error: refreshError } = await $supabase.auth.refreshSession();
-                if (refreshError || !refreshed.session) {
-                    throw new Error('No se pudo renovar la sesión');
-                }
-                return await makeRequest(refreshed.session.access_token);
-            }
-            throw error;
-        }
-    };
-
-    return { fetchWithAuth };
-};
+      )
+    try {
+      return (await send(data.session.access_token)) as T
+    } catch (cause) {
+      if ((cause as { statusCode?: number }).statusCode !== 401) throw cause
+      const refreshed = await $supabase.auth.refreshSession()
+      if (refreshed.error || !refreshed.data.session) {
+        await $supabase.auth.signOut({ scope: 'local' })
+        token.value = null
+        user.value = null
+        await navigateTo('/login')
+        throw cause
+      }
+      token.value = refreshed.data.session.access_token
+      return (await send(token.value)) as T
+    }
+  }
+  const all = async (endpoint: string): Promise<AgroRecord[]> => {
+    const rows: AgroRecord[] = []
+    let page = 1
+    while (true) {
+      const result = await request<PageResult>(endpoint, {
+        query: { page, limit: 100 }
+      })
+      rows.push(...result.data)
+      if (page >= result.meta.totalPages || result.data.length === 0) break
+      page++
+    }
+    return rows
+  }
+  return { request, all }
+}

@@ -1,33 +1,103 @@
-<template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-50">
-        <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-900">Quipubox</h2>
-                <p class="mt-2 text-gray-600">Sistema de gestión logística de frutas</p>
-            </div>
-            <button @click="loginWithGoogle"
-                class="w-full flex items-center justify-center gap-3 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                <svg class="h-5 w-5" viewBox="0 0 24 24">
-                    <path
-                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                        fill="#4285F4" />
-                    <path
-                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                        fill="#34A853" />
-                    <path
-                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                        fill="#FBBC05" />
-                    <path
-                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                        fill="#EA4335" />
-                </svg>
-                Iniciar sesión con Google
-            </button>
-        </div>
-    </div>
-</template>
-
-<script setup>
-
-const { loginWithGoogle } = useAuth()
+<script setup lang="ts">
+const { loginWithPassword, loginWithGoogle, loading, errorMessage, configured } = useAuth()
+const email = ref('')
+const password = ref('')
+const showPassword = ref(false)
+useSeoMeta({ title: 'Iniciar sesión | Agroriego' })
 </script>
+
+<template>
+  <main class="login-shell">
+    <section class="field-panel" aria-label="Agroriego, riego inteligente">
+      <a href="/login" class="brand"><span class="brand-mark"><UIcon name="i-lucide-sprout" /></span>Agroriego<span class="brand-dot">®</span></a>
+      <div class="field-copy">
+        <span class="eyebrow"><span /> TECNOLOGÍA QUE CULTIVA</span>
+        <h1>Cada gota cuenta.<br><em>Cada cultivo importa.</em></h1>
+        <p>Conecta con tu campo y toma mejores decisiones de riego, desde un solo lugar.</p>
+        <div class="field-tags">
+          <span><UIcon name="i-lucide-droplets" /> Riego inteligente</span><span><UIcon name="i-lucide-radio" /> Monitoreo del campo</span>
+        </div>
+      </div>
+      <div class="landscape" aria-hidden="true">
+        <div class="sun" /><div class="hill hill-back" /><div class="hill hill-front" /><div class="furrows" />
+      </div>
+      <div class="field-footer">
+        <span>Cultiva con información. Riega con precisión.</span><UIcon name="i-lucide-arrow-up-right" />
+      </div>
+    </section>
+    <section class="form-panel">
+      <div class="form-top">
+        <UIcon name="i-lucide-leaf" /> PLATAFORMA DE GESTIÓN AGRÍCOLA
+      </div>
+      <div class="login-form">
+        <div class="welcome-icon">
+          <UIcon name="i-lucide-log-in" />
+        </div>
+        <p class="form-kicker">
+          BIENVENIDO A TU CAMPO DIGITAL
+        </p>
+        <h2>Inicia sesión</h2>
+        <p class="form-description">
+          Ingresa a tu cuenta para continuar.
+        </p>
+        <div v-if="!configured" class="login-error" role="alert">
+          Falta configurar la conexión con Supabase. Revisa el archivo .env de la web.
+        </div>
+        <div v-if="errorMessage" class="login-error" role="alert">
+          {{ errorMessage }}
+        </div>
+        <form @submit.prevent="loginWithPassword(email, password)">
+          <label for="email">Correo electrónico</label>
+          <div class="input-wrap">
+            <UIcon name="i-lucide-mail" /><input
+              id="email"
+              v-model="email"
+              name="email"
+              type="email"
+              autocomplete="username"
+              placeholder="nombre@empresa.com"
+              required
+              :disabled="loading"
+            >
+          </div>
+          <label for="password">Contraseña</label>
+          <div class="input-wrap">
+            <UIcon name="i-lucide-lock-keyhole" /><input
+              id="password"
+              v-model="password"
+              name="password"
+              :type="showPassword ? 'text' : 'password'"
+              autocomplete="current-password"
+              placeholder="Ingresa tu contraseña"
+              required
+              :disabled="loading"
+            ><button
+              type="button"
+              class="show-password"
+              :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              :aria-pressed="showPassword"
+              @click="showPassword = !showPassword"
+            >
+              <UIcon :name="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'" />
+            </button>
+          </div>
+          <button type="submit" class="submit-button" :disabled="loading || !configured">
+            <UIcon v-if="loading" name="i-lucide-loader-circle" class="animate-spin" />{{ loading ? 'Conectando…' : 'Ingresar a Agroriego' }}<UIcon v-if="!loading" name="i-lucide-arrow-right" />
+          </button>
+        </form>
+        <div class="divider">
+          <span />o continúa con<span />
+        </div>
+        <button class="google-button" :disabled="loading || !configured" @click="loginWithGoogle">
+          <UIcon name="i-simple-icons-google" />Continuar con Google
+        </button>
+        <p class="access-note">
+          ¿Aún no tienes acceso?<br><strong>Contacta al administrador de tu organización.</strong>
+        </p>
+      </div>
+      <footer class="form-footer">
+        <span>© {{ new Date().getFullYear() }} Agroriego</span><span><UIcon name="i-lucide-shield-check" /> Acceso seguro</span>
+      </footer>
+    </section>
+  </main>
+</template>

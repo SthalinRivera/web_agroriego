@@ -1,64 +1,33 @@
-# Nuxt Dashboard Template
+# Agroriego web
 
-[![Nuxt UI](https://img.shields.io/badge/Made%20with-Nuxt%20UI-00DC82?logo=nuxt&labelColor=020420)](https://ui.nuxt.com)
+Portal Nuxt para Agroriego. Acceso con correo/contraseña o Google mediante Supabase y validación del perfil activo con `GET /auth/profile` de api-agrotec.
 
-Get started with the Nuxt dashboard template with multiple pages, collapsible sidebar, keyboard shortcuts, light & dark mode, command palette and more, powered by [Nuxt UI](https://ui.nuxt.com).
+## Desarrollo
 
-- [Live demo](https://dashboard-template.nuxt.dev/)
-- [Documentation](https://ui.nuxt.com/docs/getting-started/installation/nuxt)
+1. Instalar dependencias con `npm install`.
+2. Copiar `.env.example` a `.env` y completar la URL y clave pública de Supabase. Debe ser el mismo proyecto de la API. Nunca usar una clave service-role en la web.
+3. Configurar `NUXT_PUBLIC_API_BASE` (por defecto `http://localhost:4000`). También se admite la variable anterior `NUXT_PUBLIC_API_BASE_URL`.
+4. Iniciar api-agrotec con `npm run start:dev`. Su `FRONTEND_URL` debe coincidir con el origen de la web (`http://localhost:3000`).
+5. Ejecutar `npm run dev`.
 
-<a href="https://dashboard-template.nuxt.dev/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://ui.nuxt.com/assets/templates/nuxt/dashboard-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://ui.nuxt.com/assets/templates/nuxt/dashboard-light.png">
-    <img alt="Nuxt Dashboard Template" src="https://ui.nuxt.com/assets/templates/nuxt/dashboard-light.png">
-  </picture>
-</a>
+## Acceso
 
-> The dashboard template for Vue is on https://github.com/nuxt-ui-templates/dashboard-vue.
+La cuenta debe existir en Supabase Auth y tener un registro activo en `profiles`, con rol asignado. La web no crea perfiles ni otorga permisos automáticamente. No hay credenciales de demostración.
 
-## Quick Start
+Para Google, habilitar el proveedor en Supabase y permitir `http://localhost:3000/auth/callback` como Redirect URL. Agregar el callback de producción cuando corresponda.
 
-```bash [Terminal]
-npm create nuxt@latest -- -t ui/dashboard
-```
+Supabase restaura y renueva la sesión. El callback y las rutas del panel verifican el perfil en la API. El cierre de sesión afecta este navegador. El portal usa renderizado cliente para mantener un único flujo de sesión.
 
-## Deploy your own
+## Verificación
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-name=dashboard&repository-url=https%3A%2F%2Fgithub.com%2Fnuxt-ui-templates%2Fdashboard&demo-image=https%3A%2F%2Fui.nuxt.com%2Fassets%2Ftemplates%2Fnuxt%2Fdashboard-dark.png&demo-url=https%3A%2F%2Fdashboard-template.nuxt.dev%2F&demo-title=Nuxt%20Dashboard%20Template&demo-description=A%20dashboard%20template%20with%20multi-column%20layout%20for%20building%20sophisticated%20admin%20interfaces.)
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
 
-## Setup
+Incluye login y dashboard agrícola con 13 módulos de consulta, filtros, paginación, detalles y gráfica de humedad. La estructura reutiliza los componentes de dashboard de Nuxt UI del proyecto anterior. El proyecto anterior se conserva en `legacy-quipubox/`, excluido de las rutas y del lint, para poder recuperar componentes.
 
-Make sure to install the dependencies:
+## Dashboard y pruebas
 
-```bash
-pnpm install
-```
+El resumen consume totales reales y las vistas usan la API autenticada. Los análisis simulados se identifican expresamente. Revisión e inventario de las 79 rutas: ../api-agrotec/docs/REVISION-ENDPOINTS.md.
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-pnpm dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-pnpm build
-```
-
-Locally preview production build:
-
-```bash
-pnpm preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-
-## Renovate integration
-
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+Ejecutar pruebas de navegador con npm run test:e2e. Usan Edge en modo sin interfaz, sesión ficticia y respuestas interceptadas dentro del navegador; no escriben en la base de datos. Requieren el .env local configurado. Los artefactos se guardan en test-results/.

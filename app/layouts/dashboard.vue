@@ -1,195 +1,91 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import { agroModules } from '~/utils/agro-modules'
 
-const route = useRoute()
-const toast = useToast()
-
+const { user, logout, loading, errorMessage } = useAuth()
 const open = ref(false)
-
-const links = [[{
-  label: 'Home',
-  icon: 'i-lucide-house',
-  to: '/',
-  onSelect: () => {
+const links = [
+  {
+    label: 'Resumen',
+    icon: 'i-lucide-layout-dashboard',
+    to: '/dashboard',
+    exact: true
+  },
+  ...agroModules.map(module => ({
+    label: module.title,
+    icon: module.icon,
+    to: `/dashboard/${module.key}`
+  }))
+]
+const groups = computed(() => [
+  { id: 'navigation', label: 'Ir a un módulo', items: links }
+])
+const route = useRoute()
+watch(
+  () => route.path,
+  () => {
     open.value = false
   }
-}, {
-  label: 'Clientes',
-  icon: 'i-lucide-users',
-  to: '/dashboard/clientes',
-  badge: '4',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Usuarios',
-  icon: 'i-lucide-users',
-  to: '/dashboard/usuarios',
-  onSelect: () => {
-    open.value = false
-  }
-},
- {
-  label: 'Variedad',
-  icon: 'i-lucide-users',
-  to: '/dashboard/variedad',
-  onSelect: () => {
-    open.value = false
-  }
-},
-{
-  label: 'Tipos Jabas',
-  icon: 'i-lucide-users',
-  to: '/dashboard/tipos-jabas',
-  onSelect: () => {
-    open.value = false
-  }
-},
- {
-  label: 'Calidades',
-  icon: 'i-lucide-users',
-  to: '/dashboard/calidad',
-  onSelect: () => {
-    open.value = false
-  }
-},
-{
-  label: 'Frutas',
-  icon: 'i-lucide-building',
-  to: '/dashboard/frutas',
-  onSelect: () => {
-    open.value = false
-  }
-}, {
-  label: 'Settings',
-  to: '/settings',
-  icon: 'i-lucide-settings',
-  defaultOpen: true,
-  type: 'trigger',
-  children: [{
-    label: 'General',
-    to: '/settings',
-    exact: true,
-    onSelect: () => {
-      open.value = false
-    }
-  }, {
-    label: 'Members',
-    to: '/settings/members',
-    onSelect: () => {
-      open.value = false
-    }
-  }, {
-    label: 'Notifications',
-    to: '/settings/notifications',
-    onSelect: () => {
-      open.value = false
-    }
-  }, {
-    label: 'Security',
-    to: '/settings/security',
-    onSelect: () => {
-      open.value = false
-    }
-  }]
-}], [{
-  label: 'Feedback',
-  icon: 'i-lucide-message-circle',
-  to: 'https://github.com/nuxt-ui-templates/dashboard',
-  target: '_blank'
-}, {
-  label: 'Help & Support',
-  icon: 'i-lucide-info',
-  to: 'https://github.com/nuxt-ui-templates/dashboard',
-  target: '_blank'
-}]] satisfies NavigationMenuItem[][]
-
-const groups = computed(() => [{
-  id: 'links',
-  label: 'Go to',
-  items: links.flat()
-}, {
-  id: 'code',
-  label: 'Code',
-  items: [{
-    id: 'source',
-    label: 'View page source',
-    icon: 'i-simple-icons-github',
-    to: `https://github.com/nuxt-ui-templates/dashboard/blob/main/app/pages${route.path === '/' ? '/index' : route.path}.vue`,
-    target: '_blank'
-  }]
-}])
-
-onMounted(async () => {
-  const cookie = useCookie('cookie-consent')
-  if (cookie.value === 'accepted') {
-    return
-  }
-
-  toast.add({
-    title: 'We use first-party cookies to enhance your experience on our website.',
-    duration: 0,
-    close: false,
-    actions: [{
-      label: 'Accept',
-      color: 'neutral',
-      variant: 'outline',
-      onClick: () => {
-        cookie.value = 'accepted'
-      }
-    }, {
-      label: 'Opt out',
-      color: 'neutral',
-      variant: 'ghost'
-    }]
-  })
-})
+)
 </script>
 
 <template>
   <UDashboardGroup unit="rem">
     <UDashboardSidebar
-      id="default"
+      id="agroriego"
       v-model:open="open"
       collapsible
       resizable
       class="bg-elevated/25"
-      :ui="{ footer: 'lg:border-t lg:border-default' }"
+      :ui="{ footer: 'border-t border-default' }"
     >
       <template #header="{ collapsed }">
-        <!-- <TeamsMenu :collapsed="collapsed" /> -->
-          <LogoIcon  :collapsed="collapsed"/>
+        <NuxtLink
+          to="/dashboard"
+          class="flex items-center gap-2 py-3 text-primary font-semibold text-xl"
+        ><UIcon name="i-lucide-sprout" class="size-7 shrink-0" /><span
+          v-if="!collapsed"
+        >Agroriego</span></NuxtLink>
       </template>
-
       <template #default="{ collapsed }">
-        <UDashboardSearchButton :collapsed="collapsed" class="bg-transparent ring-default" />
-
+        <UDashboardSearchButton
+          :collapsed="collapsed"
+          label="Buscar módulo…"
+          class="mb-3"
+        />
         <UNavigationMenu
           :collapsed="collapsed"
-          :items="links[0]"
+          :items="links"
           orientation="vertical"
           tooltip
           popover
         />
-
-        <UNavigationMenu
-          :collapsed="collapsed"
-          :items="links[1]"
-          orientation="vertical"
-          tooltip
-          class="mt-auto"
-        />
       </template>
-
       <template #footer="{ collapsed }">
-        <UserMenu :collapsed="collapsed" />
+        <div class="w-full space-y-3">
+          <div v-if="!collapsed" class="text-sm min-w-0">
+            <p class="font-medium truncate">
+              {{ user?.nombres }} {{ user?.apellidos }}
+            </p>
+            <p class="text-xs text-muted truncate">
+              {{ user?.email }}
+            </p>
+          </div>
+          <UButton
+            :label="collapsed ? undefined : 'Cerrar sesión'"
+            aria-label="Cerrar sesión"
+            icon="i-lucide-log-out"
+            color="neutral"
+            variant="ghost"
+            :loading="loading"
+            @click="logout"
+          />
+          <p v-if="errorMessage" role="alert" class="text-xs text-error">
+            {{ errorMessage }}
+          </p>
+        </div>
       </template>
     </UDashboardSidebar>
-
-    <UDashboardSearch :groups="groups" />
-
+    <UDashboardSearch :groups="groups" placeholder="Buscar módulo…" />
     <slot />
-
-    <NotificationsSlideover />
   </UDashboardGroup>
 </template>

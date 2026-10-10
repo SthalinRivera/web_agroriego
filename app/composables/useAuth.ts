@@ -1,304 +1,87 @@
-// composables/useAuth.ts
-
-import {
-    useCookie,
-    useState,
-    navigateTo,
-    computed,
-    useRuntimeConfig,
-} from '#imports'
+import type { AuthProfile } from '~/types/auth'
 
 export const useAuth = () => {
-
-    const config =
-        useRuntimeConfig()
-
-    // =========================
-    // GLOBAL STATE
-    // =========================
-
-    const token =
-        useCookie<string | null>(
-            'access_token',
-            {
-                path: '/',
-
-                maxAge:
-                    60 * 60 * 24 * 7,
-
-                sameSite: 'lax',
-
-                secure:
-                    process.env.NODE_ENV ===
-                    'production',
-            },
-        )
-
-    const user =
-        useState<any>(
-            'auth-user',
-            () => null,
-        )
-
-    const loading =
-        useState<boolean>(
-            'auth-loading',
-            () => false,
-        )
-
-    // =========================
-    // COMPUTED
-    // =========================
-
-    const isAuthenticated =
-        computed(
-            () => !!token.value,
-        )
-
-    // =========================
-    // LOGIN GOOGLE
-    // =========================
-
-    const loginWithGoogle =
-        async () => {
-
-            loading.value = true
-
-            try {
-                const { $supabase } = useNuxtApp()
-
-                const { error } =
-                    await $supabase.auth
-                        .signInWithOAuth({
-
-                            provider:
-                                'google',
-
-                            options: {
-
-                                redirectTo:
-                                    `${window.location.origin}/auth/callback`,
-                            },
-                        })
-
-                if (error) {
-                    console.error(
-                        'GOOGLE LOGIN ERROR:',
-                        error,
-                    )
-                }
-
-            } catch (error) {
-
-                console.error(
-                    'LOGIN ERROR:',
-                    error,
-                )
-
-            } finally {
-
-                loading.value = false
-            }
-        }
-
-    // =========================
-    // FETCH USER
-    // =========================
-
-    const fetchUser =
-        async () => {
-
-            loading.value = true
-
-            try {
-                let jwtToken = token.value
-
-                // Si estamos en el cliente, sincronizamos con la sesión de Supabase
-                if (process.client) {
-                    const { $supabase } = useNuxtApp()
-                    if ($supabase) {
-                        const {
-                            data: { session },
-                            error: sessionError,
-                        } = await $supabase.auth.getSession()
-
-                        if (sessionError) {
-                            console.error(
-                                'SESSION ERROR:',
-                                sessionError,
-                            )
-                            token.value = null
-                            user.value = null
-                            return null
-                        }
-
-                        if (!session) {
-                            token.value = null
-                            user.value = null
-                            return null
-                        }
-
-                        jwtToken = session.access_token
-                        token.value = session.access_token
-                    }
-                }
-
-                if (!jwtToken) {
-                    user.value = null
-                    return null
-                }
-
-                // Consumir API NestJS
-                const profile =
-                    await $fetch(
-
-                        `${config.public.apiBase}/auth/profile`,
-
-                        {
-                            headers: {
-
-                                Authorization:
-                                    `Bearer ${jwtToken}`,
-                            },
-                        },
-                    )
-
-                // Guardar usuario global
-                user.value = profile
-
-                return profile
-
-            } catch (error) {
-
-                console.error(
-                    'FETCH USER ERROR:',
-                    error,
-                )
-
-                token.value = null
-                user.value = null
-
-                return null
-
-            } finally {
-
-                loading.value = false
-            }
-        }
-
-    // =========================
-    // LOGOUT
-    // =========================
-
-    const logout =
-        async () => {
-
-            loading.value = true
-
-            try {
-                const { $supabase } = useNuxtApp()
-
-                await $supabase.auth
-                    .signOut()
-
-            } catch (error) {
-
-                console.error(
-                    'LOGOUT ERROR:',
-                    error,
-                )
-
-            } finally {
-
-                token.value = null
-                user.value = null
-
-                loading.value = false
-
-                navigateTo('/login')
-            }
-        }
-
-    // =========================
-    // RESTORE SESSION
-    // =========================
-
-    const restoreSession =
-        async () => {
-
-            if (!user.value && token.value) {
-
-                await fetchUser()
-            }
-        }
-
-    // =========================
-    // AUTO LISTENER
-    // =========================
-
-    if (process.client) {
-        const nuxtApp = useNuxtApp()
-        nuxtApp.hook('app:created', () => {
-            const { $supabase } = useNuxtApp()
-            if ($supabase) {
-                $supabase.auth
-                    .onAuthStateChange(
-
-                        async (event, session) => {
-
-                            // LOGIN / INITIAL_SESSION
-                            if (
-                                (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') &&
-                                session
-                            ) {
-
-                                token.value =
-                                    session.access_token
-
-                                if (!user.value) {
-                                    await fetchUser()
-                                }
-                            }
-
-                            // LOGOUT
-                            if (
-                                event === 'SIGNED_OUT'
-                            ) {
-
-                                token.value = null
-                                user.value = null
-                            }
-
-                            // TOKEN REFRESH
-                            if (
-                                event ===
-                                'TOKEN_REFRESHED'
-                            ) {
-
-                                token.value =
-                                    session?.access_token ||
-                                    null
-                            }
-                        },
-                    )
-            }
-        })
+  const { $supabase } = useNuxtApp()
+  const config = useRuntimeConfig()
+  const token = useState<string | null>('auth-token', () => null)
+  const user = useState<AuthProfile | null>('auth-user', () => null)
+  const loading = useState('auth-loading', () => false)
+  const errorMessage = useState('auth-error', () => '')
+  const configured = computed(() => Boolean($supabase))
+
+  const fetchUser = async () => {
+    if (!$supabase) throw new Error('Falta configurar Supabase en el archivo .env de la web.')
+    const { data, error } = await $supabase.auth.getSession()
+    if (error || !data.session) {
+      token.value = null
+      user.value = null
+      throw new Error('Tu sesión ha vencido. Inicia sesión nuevamente.')
     }
-
-    return {
-
-        // state
-        token,
-        user,
-        loading,
-
-        // computed
-        isAuthenticated,
-
-        // methods
-        loginWithGoogle,
-        fetchUser,
-        logout,
-        restoreSession,
+    token.value = data.session.access_token
+    try {
+      user.value = await $fetch<AuthProfile>(`${config.public.apiBase.replace(/\/$/, '')}/auth/profile`, {
+        headers: { Authorization: `Bearer ${token.value}` }, timeout: 15000, retry: 0
+      })
+      errorMessage.value = ''
+      return user.value
+    } catch (cause) {
+      user.value = null
+      const status = (cause as { statusCode?: number }).statusCode
+      if (status === 401 || status === 403) {
+        await $supabase.auth.signOut({ scope: 'local' })
+        token.value = null
+        throw new Error('Tu cuenta no tiene acceso activo a Agroriego. Contacta al administrador.')
+      }
+      throw new Error('No se pudo conectar con la API de Agroriego. Inténtalo nuevamente.')
     }
+  }
+
+  const loginWithPassword = async (email: string, password: string) => {
+    loading.value = true
+    errorMessage.value = ''
+    try {
+      if (!$supabase) throw new Error('Falta configurar Supabase en el archivo .env de la web.')
+      const { error } = await $supabase.auth.signInWithPassword({ email: email.trim(), password })
+      if (error) throw new Error('No se pudo iniciar sesión. Revisa tu correo y contraseña.')
+      await fetchUser()
+      await navigateTo('/dashboard')
+    } catch (cause) {
+      errorMessage.value = cause instanceof Error ? cause.message : 'No se pudo iniciar sesión.'
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const loginWithGoogle = async () => {
+    loading.value = true
+    errorMessage.value = ''
+    try {
+      if (!$supabase) throw new Error('Falta configurar Supabase en el archivo .env de la web.')
+      const { error } = await $supabase.auth.signInWithOAuth({
+        provider: 'google', options: { redirectTo: `${window.location.origin}/auth/callback` }
+      })
+      if (error) throw new Error('No se pudo conectar con Google. Inténtalo nuevamente.')
+    } catch (cause) {
+      errorMessage.value = cause instanceof Error ? cause.message : 'No se pudo iniciar sesión.'
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const logout = async () => {
+    loading.value = true
+    try {
+      const result = await $supabase?.auth.signOut({ scope: 'local' })
+      if (result?.error) throw result.error
+      token.value = null
+      user.value = null
+      errorMessage.value = ''
+      await navigateTo('/login')
+    } catch {
+      errorMessage.value = 'No se pudo cerrar la sesión. Inténtalo nuevamente.'
+    } finally {
+      loading.value = false
+    }
+  }
+  return { token, user, loading, errorMessage, configured, fetchUser, loginWithPassword, loginWithGoogle, logout }
 }

@@ -25,3 +25,7 @@ logs
 
 # VSC
 .history
+
+# Browser test artifacts
+test-results/
+playwright-report/
