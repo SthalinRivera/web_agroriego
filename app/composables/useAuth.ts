@@ -36,22 +36,6 @@ export const useAuth = () => {
     }
   }
 
-  const loginWithPassword = async (email: string, password: string) => {
-    loading.value = true
-    errorMessage.value = ''
-    try {
-      if (!$supabase) throw new Error('Falta configurar Supabase en el archivo .env de la web.')
-      const { error } = await $supabase.auth.signInWithPassword({ email: email.trim(), password })
-      if (error) throw new Error('No se pudo iniciar sesión. Revisa tu correo y contraseña.')
-      await fetchUser()
-      await navigateTo('/dashboard')
-    } catch (cause) {
-      errorMessage.value = cause instanceof Error ? cause.message : 'No se pudo iniciar sesión.'
-    } finally {
-      loading.value = false
-    }
-  }
-
   const loginWithGoogle = async () => {
     loading.value = true
     errorMessage.value = ''
@@ -83,5 +67,5 @@ export const useAuth = () => {
       loading.value = false
     }
   }
-  return { token, user, loading, errorMessage, configured, fetchUser, loginWithPassword, loginWithGoogle, logout }
+  return { token, user, loading, errorMessage, configured, fetchUser, loginWithGoogle, logout }
 }

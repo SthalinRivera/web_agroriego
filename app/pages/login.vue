@@ -1,8 +1,5 @@
 <script setup lang="ts">
-const { loginWithPassword, loginWithGoogle, loading, errorMessage, configured } = useAuth()
-const email = ref('')
-const password = ref('')
-const showPassword = ref(false)
+const { loginWithGoogle, loading, errorMessage, configured } = useAuth()
 useSeoMeta({ title: 'Iniciar sesión | Agroriego' })
 </script>
 
@@ -38,7 +35,7 @@ useSeoMeta({ title: 'Iniciar sesión | Agroriego' })
         </p>
         <h2>Inicia sesión</h2>
         <p class="form-description">
-          Ingresa a tu cuenta para continuar.
+          Continúa con tu cuenta de Google para acceder a Agroriego.
         </p>
         <div v-if="!configured" class="login-error" role="alert">
           Falta configurar la conexión con Supabase. Revisa el archivo .env de la web.
@@ -46,50 +43,13 @@ useSeoMeta({ title: 'Iniciar sesión | Agroriego' })
         <div v-if="errorMessage" class="login-error" role="alert">
           {{ errorMessage }}
         </div>
-        <form @submit.prevent="loginWithPassword(email, password)">
-          <label for="email">Correo electrónico</label>
-          <div class="input-wrap">
-            <UIcon name="i-lucide-mail" /><input
-              id="email"
-              v-model="email"
-              name="email"
-              type="email"
-              autocomplete="username"
-              placeholder="nombre@empresa.com"
-              required
-              :disabled="loading"
-            >
-          </div>
-          <label for="password">Contraseña</label>
-          <div class="input-wrap">
-            <UIcon name="i-lucide-lock-keyhole" /><input
-              id="password"
-              v-model="password"
-              name="password"
-              :type="showPassword ? 'text' : 'password'"
-              autocomplete="current-password"
-              placeholder="Ingresa tu contraseña"
-              required
-              :disabled="loading"
-            ><button
-              type="button"
-              class="show-password"
-              :aria-label="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-              :aria-pressed="showPassword"
-              @click="showPassword = !showPassword"
-            >
-              <UIcon :name="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'" />
-            </button>
-          </div>
-          <button type="submit" class="submit-button" :disabled="loading || !configured">
-            <UIcon v-if="loading" name="i-lucide-loader-circle" class="animate-spin" />{{ loading ? 'Conectando…' : 'Ingresar a Agroriego' }}<UIcon v-if="!loading" name="i-lucide-arrow-right" />
-          </button>
-        </form>
-        <div class="divider">
-          <span />o continúa con<span />
-        </div>
-        <button class="google-button" :disabled="loading || !configured" @click="loginWithGoogle">
-          <UIcon name="i-simple-icons-google" />Continuar con Google
+        <button
+          type="button"
+          class="google-button"
+          :disabled="loading || !configured"
+          @click="loginWithGoogle"
+        >
+          <UIcon :name="loading ? 'i-lucide-loader-circle' : 'i-simple-icons-google'" :class="{ 'animate-spin': loading }" />{{ loading ? 'Conectando…' : 'Continuar con Google' }}
         </button>
         <p class="access-note">
           ¿Aún no tienes acceso?<br><strong>Contacta al administrador de tu organización.</strong>

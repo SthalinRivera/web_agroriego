@@ -1,6 +1,7 @@
 import type { AgroRecord, PageResult } from '~/types/agro'
 
 interface ApiOptions {
+  timeout?: number
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   query?: Record<string, string | number | boolean | undefined>
   body?: Record<string, unknown>
@@ -27,7 +28,7 @@ export const useApi = () => {
         `${config.public.apiBase.replace(/\/$/, '')}/${path.replace(/^\//, '')}`,
         {
           ...options,
-          timeout: 20000,
+          timeout: options.timeout ?? 20000,
           retry: 0,
           headers: { Authorization: `Bearer ${jwt}` }
         }

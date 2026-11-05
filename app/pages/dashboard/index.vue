@@ -93,6 +93,7 @@ onBeforeUnmount(() => generation++)
         <template #leading>
           <UDashboardSidebarCollapse />
         </template><template #right>
+          <AgroThemeToggle />
           <AgroNotifications />
           <UButton
             icon="i-lucide-refresh-cw"
