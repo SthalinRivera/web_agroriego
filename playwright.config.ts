@@ -6,7 +6,7 @@ export default defineConfig({
   expect: { timeout: 15000 },
   workers: 1,
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.E2E_PRODUCTION ? 'http://localhost:3100' : 'http://localhost:3000',
     channel: 'msedge',
     headless: true,
     viewport: { width: 1440, height: 1000 },
@@ -14,9 +14,10 @@ export default defineConfig({
     trace: 'retain-on-failure'
   },
   webServer: {
-    command: 'npm run dev -- --host localhost --port 3000',
-    url: 'http://localhost:3000/login',
-    reuseExistingServer: true,
+    command: process.env.E2E_PRODUCTION ? 'node --env-file=.env .output/server/index.mjs' : 'npm run dev -- --host localhost --port 3000',
+    env: process.env.E2E_PRODUCTION ? { PORT: '3100', HOST: 'localhost' } : undefined,
+    url: process.env.E2E_PRODUCTION ? 'http://localhost:3100/login' : 'http://localhost:3000/login',
+    reuseExistingServer: !process.env.E2E_PRODUCTION,
     timeout: 180000
   }
 })

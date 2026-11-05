@@ -4,5 +4,5 @@ export interface AuthProfile {
   nombres: string
   apellidos: string
   estado: boolean
-  roles: { id: number, nombre: string, descripcion: string | null }[]
+  roles: { id: number, nombre: string, codigo?: string, descripcion: string | null }[]
 }

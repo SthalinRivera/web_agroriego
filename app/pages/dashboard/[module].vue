@@ -31,6 +31,49 @@ const detailError = ref('')
 const detailBusy = ref(false)
 const selected = ref<AgroRecord | null>(null)
 const actionBusy = ref(false)
+const testBusy = ref(false)
+const testResult = ref('')
+const testError = ref('')
+const notificationRevision = useState('notification-revision', () => 0)
+watch(notificationRevision, () => {
+  if (module!.key === 'notificaciones') void load()
+})
+async function saved() {
+  detailOpen.value = false
+  await load()
+}
+async function readAll() {
+  if (actionBusy.value) return
+  actionBusy.value = true
+  try {
+    await request('notificaciones/leer-todas', { method: 'PUT', body: {} })
+    notificationRevision.value++
+    await load()
+  } catch (cause) {
+    error.value = errorText(cause)
+  } finally {
+    actionBusy.value = false
+  }
+}
+async function sendTestNotification() {
+  if (testBusy.value) return
+  testBusy.value = true
+  testResult.value = ''
+  testError.value = ''
+  try {
+    const result = await request<{ message: string }>('notificaciones/prueba', {
+      method: 'POST',
+      body: {}
+    })
+    testResult.value = result.message
+    notificationRevision.value++
+    await load()
+  } catch (cause) {
+    testError.value = errorText(cause)
+  } finally {
+    testBusy.value = false
+  }
+}
 const pages = computed(() => Math.max(1, Math.ceil(total.value / pageSize)))
 let generation = 0
 let detailGeneration = 0
@@ -165,9 +208,10 @@ async function markRead() {
       'notificaciones/'
       + encodeURIComponent(String(selected.value.id))
       + '/leer',
-      { method: 'PUT', body: { leida: true } }
+      { method: 'PUT', body: { leida: !selected.value.leida } }
     )
     detailOpen.value = false
+    notificationRevision.value++
     await load()
   } catch (cause) {
     detailError.value = errorText(cause)
@@ -193,6 +237,7 @@ useSeoMeta({ title: module.title + ' | Agroriego' })
         <template #leading>
           <UDashboardSidebarCollapse />
         </template><template #right>
+          <AgroNotifications />
           <UButton
             icon="i-lucide-refresh-cw"
             label="Actualizar"
@@ -205,6 +250,43 @@ useSeoMeta({ title: module.title + ' | Agroriego' })
       </UDashboardNavbar>
     </template>
     <template #body>
+      <div class="agro-module-heading">
+        <div>
+          <p class="agro-eyebrow">
+            GESTIÓN DEL CAMPO
+          </p>
+          <h1 class="text-2xl font-semibold tracking-tight">
+            {{ module.title }}
+          </h1>
+        </div>
+        <AgroActions
+          :module-key="module.key"
+          :endpoint="module.endpoint"
+          @saved="saved"
+        />
+      </div>
+      <div v-if="module.key === 'notificaciones'" class="space-y-3">
+        <UButton
+          label="Enviar notificación de prueba"
+          icon="i-lucide-send"
+          :loading="testBusy"
+          :disabled="testBusy"
+          @click="sendTestNotification"
+        />
+        <UButton
+          label="Marcar todas como leídas"
+          icon="i-lucide-check-check"
+          color="neutral"
+          variant="outline"
+          :loading="actionBusy"
+          @click="readAll"
+        />
+        <p class="text-sm text-muted">
+          Envía un aviso a tus dispositivos registrados, sin necesitar ESP32.
+        </p>
+        <UAlert v-if="testResult" color="success" :title="testResult" />
+        <UAlert v-if="testError" color="error" :title="testError" />
+      </div>
       <p class="text-muted">
         {{ module.description }}
       </p>
@@ -233,7 +315,12 @@ useSeoMeta({ title: module.title + ' | Agroriego' })
             class="agro-filter"
             :placeholder="filter.label"
           >
-          <select v-else v-model="filters[filter.key]" class="agro-filter">
+          <select
+            v-else
+            v-model="filters[filter.key]"
+            :aria-label="filter.label"
+            class="agro-filter"
+          >
             <option value="">Todos</option>
             <template v-if="filter.source"><option
               v-for="option in options[filter.source] ?? []"
@@ -377,6 +464,14 @@ useSeoMeta({ title: module.title + ' | Agroriego' })
               />
             </template>
           </UAlert>
+          <AgroActions
+            v-if="selected && !detailBusy"
+            :module-key="module.key"
+            :endpoint="module.endpoint"
+            :record="selected"
+            class="mb-5"
+            @saved="saved"
+          />
           <AgroDetails v-if="detail" :value="detail" />
           <AgroMoistureTrend
             v-if="
@@ -392,10 +487,10 @@ useSeoMeta({ title: module.title + ' | Agroriego' })
             class="mt-6"
           />
           <UButton
-            v-if="
-              module.key === 'notificaciones' && selected && !selected.leida
+            v-if="module.key === 'notificaciones' && selected"
+            :label="
+              selected?.leida ? 'Marcar como no leída' : 'Marcar como leída'
             "
-            label="Marcar como leída"
             icon="i-lucide-check"
             :loading="actionBusy"
             class="mt-4"

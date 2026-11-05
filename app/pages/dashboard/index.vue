@@ -93,6 +93,7 @@ onBeforeUnmount(() => generation++)
         <template #leading>
           <UDashboardSidebarCollapse />
         </template><template #right>
+          <AgroNotifications />
           <UButton
             icon="i-lucide-refresh-cw"
             label="Actualizar"
@@ -121,7 +122,7 @@ onBeforeUnmount(() => generation++)
           Última consulta: {{ displayValue(updated) }}
         </p>
       </div>
-      <div class="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
         <NuxtLink
           v-for="card in cards"
           :key="card.key"
@@ -129,13 +130,13 @@ onBeforeUnmount(() => generation++)
             path: '/dashboard/' + card.key,
             query: card.query.estado ? { estado: card.query.estado } : {}
           }"
-          class="rounded-xl border border-default p-5 hover:bg-elevated/40 transition-colors"
+          class="rounded-xl border border-default p-4 hover:bg-elevated/40 transition-colors"
         >
           <div class="flex items-center justify-between gap-2">
             <p class="text-sm text-muted">{{ card.title }}</p>
             <UIcon :name="card.icon" class="text-primary size-5" />
           </div>
-          <p class="text-3xl font-semibold mt-3">
+          <p class="text-2xl font-semibold mt-2">
             {{
               busy
                 ? "…"

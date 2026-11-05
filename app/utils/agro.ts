@@ -76,7 +76,7 @@ export function errorText(cause: unknown): string {
   if (error.statusCode === 403)
     return 'No tienes permiso para consultar estos datos.'
   if (error.statusCode === 404) return 'El registro solicitado no existe.'
-  if (error.statusCode === 400 && error.data?.message)
+  if ([400, 429, 503].includes(error.statusCode ?? 0) && error.data?.message)
     return Array.isArray(error.data.message)
       ? error.data.message.join('. ')
       : String(error.data.message)

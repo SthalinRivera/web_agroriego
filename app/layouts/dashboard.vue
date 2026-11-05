@@ -3,21 +3,21 @@ import { agroModules } from '~/utils/agro-modules'
 
 const { user, logout, loading, errorMessage } = useAuth()
 const open = ref(false)
-const links = [
+const links = computed(() => [
   {
     label: 'Resumen',
     icon: 'i-lucide-layout-dashboard',
     to: '/dashboard',
     exact: true
   },
-  ...agroModules.map(module => ({
+  ...agroModules.filter(module => !module.adminOnly || user.value?.roles.some(role => role.codigo === 'admin')).map(module => ({
     label: module.title,
     icon: module.icon,
     to: `/dashboard/${module.key}`
   }))
-]
+])
 const groups = computed(() => [
-  { id: 'navigation', label: 'Ir a un módulo', items: links }
+  { id: 'navigation', label: 'Ir a un módulo', items: links.value }
 ])
 const route = useRoute()
 watch(
@@ -29,13 +29,13 @@ watch(
 </script>
 
 <template>
-  <UDashboardGroup unit="rem">
+  <UDashboardGroup unit="rem" class="agro-workspace">
     <UDashboardSidebar
       id="agroriego"
       v-model:open="open"
       collapsible
       resizable
-      class="bg-elevated/25"
+      class="agro-sidebar bg-elevated/25"
       :ui="{ footer: 'border-t border-default' }"
     >
       <template #header="{ collapsed }">
@@ -44,7 +44,7 @@ watch(
           class="flex items-center gap-2 py-3 text-primary font-semibold text-xl"
         ><UIcon name="i-lucide-sprout" class="size-7 shrink-0" /><span
           v-if="!collapsed"
-        >Agroriego</span></NuxtLink>
+        >Agroriego<span class="block text-[9px] tracking-[0.2em] uppercase text-muted font-medium">Control agrícola</span></span></NuxtLink>
       </template>
       <template #default="{ collapsed }">
         <UDashboardSearchButton

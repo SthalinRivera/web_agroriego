@@ -14,12 +14,12 @@ defineEmits<{ select: [row: AgroRecord] }>()
           <th
             v-for="column in columns"
             :key="column.key"
-            class="p-4 font-medium whitespace-nowrap"
+            class="px-4 py-3 font-medium whitespace-nowrap"
             scope="col"
           >
             {{ column.label }}
           </th>
-          <th class="p-4" scope="col">
+          <th class="px-4 py-3" scope="col">
             <span class="sr-only">Detalle</span>
           </th>
         </tr>
@@ -51,11 +51,12 @@ defineEmits<{ select: [row: AgroRecord] }>()
             <td
               v-for="column in columns"
               :key="column.key"
-              class="p-4 max-w-72 break-words"
+              class="px-4 py-3 max-w-72 break-words"
             >
-              {{ displayValue(valueAt(row, column.key), column.key) }}
+              <span v-if="['estado', 'prioridad', 'activa', 'activo', 'leida'].includes(column.key)" class="agro-status" :data-status="String(valueAt(row, column.key))">{{ displayValue(valueAt(row, column.key), column.key) }}</span>
+              <span v-else>{{ displayValue(valueAt(row, column.key), column.key) }}</span>
             </td>
-            <td class="p-4">
+            <td class="px-4 py-3">
               <UButton
                 label="Ver detalle"
                 icon="i-lucide-arrow-up-right"

@@ -55,3 +55,22 @@ button:focus-visible, a:focus-visible { outline: 3px solid #72a786; outline-offs
 @media (max-width: 900px) { .field-panel { padding: 35px 8%; } .field-copy h1 { font-size: 36px; } .form-panel { padding: 35px 8% 24px; } }
 @media (max-width: 680px) { .login-shell { grid-template-columns: 1fr; } .field-panel { min-height: auto; padding: 25px 7% 30px; } .brand { font-size: 23px; } .field-copy { margin-top: 30px; } .field-copy h1 { font-size: 32px; letter-spacing: -1px; margin: 16px 0 0; } .field-copy p, .field-tags, .field-footer, .landscape, .form-top { display: none; } .form-panel { padding: 30px 7% 24px; } .login-form { padding: 0 0 35px; } .welcome-icon, .form-kicker { display: none; } .login-form h2 { font-size: 28px; } }
 .agro-filter { min-height: 36px; padding: 7px 10px; border: 1px solid var(--ui-border); border-radius: 6px; background: var(--ui-bg); color: var(--ui-text); font-size: 13px; } .agro-filter:focus-visible { outline: 2px solid var(--ui-primary); outline-offset: 2px; }
+
+/* Compact workspace with a consistent agricultural palette. */
+.agro-workspace { --ui-radius: .35rem; background: var(--ui-bg); }
+.agro-sidebar { background: color-mix(in srgb, var(--ui-primary) 3%, var(--ui-bg)); }
+.agro-sidebar nav { font-size: 13px; }
+.agro-module-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 0 12px; border-bottom: 1px solid var(--ui-border); }
+.agro-eyebrow { font-size: 10px; font-weight: 650; letter-spacing: .16em; color: var(--ui-primary); margin-bottom: 6px; }
+.agro-workspace table { font-variant-numeric: tabular-nums; }
+.agro-workspace thead { font-size: 11px; letter-spacing: .025em; }
+.agro-workspace tbody { font-size: 13px; }
+.agro-status { display: inline-flex; align-items: center; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 600; background: var(--ui-bg-elevated); color: var(--ui-text-muted); white-space: nowrap; }
+.agro-status[data-status="true"], .agro-status[data-status="online"], .agro-status[data-status="resuelta"], .agro-status[data-status="finalizado"] { background: #dcfce7; color: #166534; }
+.agro-status[data-status="alta"], .agro-status[data-status="error"] { background: #fee2e2; color: #991b1b; }
+.agro-status[data-status="media"], .agro-status[data-status="activa"], .agro-status[data-status="en_curso"], .agro-status[data-status="atendida"] { background: #fef3c7; color: #92400e; }
+.agro-filter { width: 100%; transition: border-color .15s; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
+
+.agro-workspace { --ui-primary: #15803d; }
+.dark .agro-workspace { --ui-primary: #4ade80; }

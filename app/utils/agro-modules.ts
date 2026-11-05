@@ -277,12 +277,13 @@ export const agroModules: AgroModule[] = [
     key: 'notificaciones',
     title: 'Notificaciones',
     icon: 'i-lucide-bell',
-    description: 'Avisos personales y estado de lectura.',
+    description: 'Avisos personales, prioridad y estado de lectura.',
     endpoint: 'notificaciones',
     paginated: true,
     filters: [{ key: 'leida', label: 'Leída', options: ['true', 'false'] }],
     columns: columns(
       'titulo|Notificación',
+      'prioridad|Prioridad',
       'mensaje|Mensaje',
       'tipo|Tipo',
       'leida|Leída',
@@ -305,5 +306,206 @@ export const agroModules: AgroModule[] = [
       'bateria_minima|Batería mín. (%)',
       'notificaciones_activas|Avisos activos'
     )
-  }
+  },
+  {
+    key: 'eventos',
+    title: 'Eventos de equipos',
+    icon: 'i-lucide-scroll-text',
+    endpoint: 'gestion/eventos',
+    description: 'Registro de eventos de los equipos de tus parcelas.',
+    filters: [
+      {
+        key: 'dispositivoId',
+        label: 'Dispositivo',
+        source: 'dispositivos'
+      }
+    ],
+    paginated: true,
+    columns: [
+      {
+        key: 'dispositivos.nombre',
+        label: 'Equipo'
+      },
+      {
+        key: 'nivel',
+        label: 'Nivel'
+      },
+      {
+        key: 'codigo',
+        label: 'Código'
+      },
+      {
+        key: 'mensaje',
+        label: 'Mensaje'
+      },
+      {
+        key: 'created_at',
+        label: 'Fecha'
+      }
+    ]
+  },
+  {
+    key: 'evaluaciones',
+    title: 'Evaluaciones IA',
+    icon: 'i-lucide-chart-no-axes-combined',
+    endpoint: 'gestion/evaluaciones',
+    description:
+      'Comparación de predicciones con valores observados registrados.',
+    filters: [
+      {
+        key: 'parcelaId',
+        label: 'Parcela',
+        source: 'parcelas'
+      }
+    ],
+    paginated: true,
+    columns: [
+      {
+        key: 'predicciones.parcelas.nombre',
+        label: 'Parcela'
+      },
+      {
+        key: 'humedad_observada',
+        label: 'Humedad observada'
+      },
+      {
+        key: 'humedad_predicha',
+        label: 'Humedad predicha'
+      },
+      {
+        key: 'error_absoluto',
+        label: 'Error absoluto'
+      },
+      {
+        key: 'evaluated_at',
+        label: 'Evaluación'
+      }
+    ]
+  },
+  {
+    key: 'accesos',
+    title: 'Accesos compartidos',
+    icon: 'i-lucide-users',
+    endpoint: 'gestion/accesos',
+    description:
+      'Miembros de las parcelas que administras y tus accesos compartidos.',
+    filters: [
+      {
+        key: 'parcelaId',
+        label: 'Parcela',
+        source: 'parcelas'
+      }
+    ],
+    paginated: true,
+    columns: [
+      {
+        key: 'parcelas.nombre',
+        label: 'Parcela'
+      },
+      {
+        key: 'profiles.full_name',
+        label: 'Usuario'
+      },
+      {
+        key: 'nivel_acceso',
+        label: 'Nivel de acceso'
+      },
+      {
+        key: 'created_at',
+        label: 'Desde'
+      }
+    ]
+  },
+  {
+    key: 'auditoria',
+    title: 'Mi actividad',
+    icon: 'i-lucide-history',
+    endpoint: 'gestion/auditoria',
+    description: 'Historial de auditoría registrado para tu cuenta.',
+    filters: [],
+    paginated: true,
+    columns: [
+      {
+        key: 'accion',
+        label: 'Acción'
+      },
+      {
+        key: 'entidad',
+        label: 'Entidad'
+      },
+      {
+        key: 'descripcion',
+        label: 'Descripción'
+      },
+      {
+        key: 'created_at',
+        label: 'Fecha'
+      }
+    ]
+  },
+  {
+    key: 'dispositivos-push',
+    title: 'Dispositivos de avisos',
+    icon: 'i-lucide-smartphone',
+    endpoint: 'gestion/dispositivos-push',
+    description: 'Equipos registrados para recibir tus notificaciones push.',
+    filters: [],
+    paginated: true,
+    columns: [
+      {
+        key: 'plataforma',
+        label: 'Plataforma'
+      },
+      {
+        key: 'modelo_dispositivo',
+        label: 'Equipo'
+      },
+      {
+        key: 'app_version',
+        label: 'Versión'
+      },
+      {
+        key: 'activo',
+        label: 'Activo'
+      },
+      {
+        key: 'last_seen',
+        label: 'Última conexión'
+      }
+    ]
+  },
+  {
+    key: 'perfil',
+    title: 'Mi perfil',
+    icon: 'i-lucide-user-round',
+    endpoint: 'gestion/perfil',
+    description: 'Datos personales y rol de tu cuenta.',
+    paginated: false,
+    filters: [],
+    columns: [
+      {
+        key: 'full_name',
+        label: 'Nombre completo'
+      },
+      {
+        key: 'telefono',
+        label: 'Teléfono'
+      },
+      {
+        key: 'roles.nombre',
+        label: 'Rol'
+      },
+      {
+        key: 'activo',
+        label: 'Activo'
+      },
+      {
+        key: 'last_login_at',
+        label: 'Último acceso'
+      }
+    ]
+  },
+  { key: 'usuarios', title: 'Usuarios', icon: 'i-lucide-users-round', description: 'Gestiona el rol y estado de las cuentas registradas.', endpoint: 'gestion/usuarios', adminOnly: true, paginated: true, filters: [], columns: columns('full_name|Nombre', 'roles.nombre|Rol', 'activo|Activo', 'created_at|Registro') },
+  { key: 'roles', title: 'Roles', icon: 'i-lucide-shield-check', description: 'Roles del sistema y sus descripciones.', endpoint: 'gestion/roles', adminOnly: true, filters: [], columns: columns('codigo|Código', 'nombre|Rol', 'descripcion|Descripción') },
+  { key: 'sistema', title: 'Configuración del sistema', icon: 'i-lucide-settings', description: 'Parámetros globales. Utiliza la clave existente para actualizar su valor.', endpoint: 'gestion/sistema', adminOnly: true, filters: [], columns: columns('clave|Clave', 'descripcion|Descripción', 'updated_at|Actualización') }
 ]

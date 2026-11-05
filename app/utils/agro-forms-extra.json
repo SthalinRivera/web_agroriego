@@ -1,0 +1,162 @@
+{
+  "perfil": [
+    [],
+    [
+      {
+        "key": "fullName",
+        "readKey": "full_name",
+        "label": "Nombre completo",
+        "type": "text",
+        "required": true,
+        "maxLength": 200
+      },
+      {
+        "key": "telefono",
+        "readKey": "telefono",
+        "label": "Teléfono",
+        "type": "text",
+        "required": false,
+        "maxLength": 30
+      }
+    ]
+  ],
+  "usuarios": [
+    [],
+    [
+      {
+        "key": "roleId",
+        "readKey": "role_id",
+        "label": "Rol",
+        "type": "number",
+        "required": true,
+        "source": "gestion/roles",
+        "min": 1,
+        "step": 1
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Cuenta activa",
+        "type": "boolean",
+        "required": true
+      }
+    ]
+  ],
+  "sistema": [
+    [
+      {
+        "key": "clave",
+        "readKey": "clave",
+        "label": "Clave",
+        "type": "text",
+        "required": true,
+        "maxLength": 100
+      },
+      {
+        "key": "valor",
+        "readKey": "valor",
+        "label": "Configuración (JSON)",
+        "type": "json",
+        "required": true
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripción",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "accesos": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "usuarioEmail",
+        "readKey": "usuario_email",
+        "label": "Correo del usuario",
+        "type": "email",
+        "required": true
+      },
+      {
+        "key": "nivelAcceso",
+        "readKey": "nivel_acceso",
+        "label": "Nivel de acceso",
+        "type": "text",
+        "required": true,
+        "options": [
+          "admin",
+          "editor",
+          "tecnico",
+          "lector"
+        ]
+      }
+    ],
+    [
+      {
+        "key": "nivelAcceso",
+        "readKey": "nivel_acceso",
+        "label": "Nivel de acceso",
+        "type": "text",
+        "required": true,
+        "options": [
+          "admin",
+          "editor",
+          "tecnico",
+          "lector"
+        ]
+      }
+    ]
+  ],
+  "evaluaciones": [
+    [
+      {
+        "key": "prediccionId",
+        "readKey": "prediccion_id",
+        "label": "Predicción",
+        "type": "text",
+        "required": true,
+        "source": "predicciones"
+      },
+      {
+        "key": "humedadObservada",
+        "readKey": "humedad_observada",
+        "label": "Humedad observada (%)",
+        "type": "number",
+        "required": true,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "tiempoObservadoHoras",
+        "readKey": "tiempo_observado_horas",
+        "label": "Tiempo observado (h)",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "volumenObservadoLitros",
+        "readKey": "volumen_observado_litros",
+        "label": "Volumen observado (L)",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ]
+}

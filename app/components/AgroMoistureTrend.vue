@@ -152,7 +152,8 @@ onBeforeUnmount(() => generation++)
     <template v-else>
       <svg
         viewBox="0 0 800 250"
-        class="w-full min-h-48"
+        class="w-full h-56 sm:h-64"
+        preserveAspectRatio="none"
         role="img"
         aria-label="Tendencia de humedad del suelo, escala de cero a cien por ciento"
       >

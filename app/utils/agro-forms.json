@@ -1,0 +1,1673 @@
+{
+  "parcelas": [
+    [
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": true,
+        "maxLength": 150
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripcion",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "key": "departamento",
+        "readKey": "departamento",
+        "label": "Departamento",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "provincia",
+        "readKey": "provincia",
+        "label": "Provincia",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "distrito",
+        "readKey": "distrito",
+        "label": "Distrito",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "localidad",
+        "readKey": "localidad",
+        "label": "Localidad",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "direccion",
+        "readKey": "direccion",
+        "label": "Direccion",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "latitud",
+        "readKey": "latitud",
+        "label": "Latitud",
+        "type": "number",
+        "required": false,
+        "min": -90,
+        "max": 90
+      },
+      {
+        "key": "longitud",
+        "readKey": "longitud",
+        "label": "Longitud",
+        "type": "number",
+        "required": false,
+        "min": -180,
+        "max": 180
+      },
+      {
+        "key": "altitudMsnm",
+        "readKey": "altitud_msnm",
+        "label": "Altitud (m s. n. m.)",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "areaHectareas",
+        "readKey": "area_hectareas",
+        "label": "Área (ha)",
+        "type": "number",
+        "required": false,
+        "min": 0
+      }
+    ],
+    [
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": false,
+        "maxLength": 150
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripcion",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "key": "departamento",
+        "readKey": "departamento",
+        "label": "Departamento",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "provincia",
+        "readKey": "provincia",
+        "label": "Provincia",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "distrito",
+        "readKey": "distrito",
+        "label": "Distrito",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "localidad",
+        "readKey": "localidad",
+        "label": "Localidad",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "direccion",
+        "readKey": "direccion",
+        "label": "Direccion",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "latitud",
+        "readKey": "latitud",
+        "label": "Latitud",
+        "type": "number",
+        "required": false,
+        "min": -90,
+        "max": 90
+      },
+      {
+        "key": "longitud",
+        "readKey": "longitud",
+        "label": "Longitud",
+        "type": "number",
+        "required": false,
+        "min": -180,
+        "max": 180
+      },
+      {
+        "key": "altitudMsnm",
+        "readKey": "altitud_msnm",
+        "label": "Altitud (m s. n. m.)",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "areaHectareas",
+        "readKey": "area_hectareas",
+        "label": "Área (ha)",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "activa",
+        "readKey": "activa",
+        "label": "Activa",
+        "type": "boolean",
+        "required": false
+      }
+    ]
+  ],
+  "cultivos": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "cultivo",
+        "readKey": "cultivo",
+        "label": "Cultivo",
+        "type": "text",
+        "required": false,
+        "options": [
+          "Palta",
+          "Uva",
+          "Arandano",
+          "Citricos",
+          "Otros"
+        ]
+      },
+      {
+        "key": "variedad",
+        "readKey": "variedad",
+        "label": "Variedad",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "cantidadPlantas",
+        "readKey": "cantidad_plantas",
+        "label": "Cantidad de plantas",
+        "type": "number",
+        "required": false,
+        "min": 1,
+        "step": 1
+      },
+      {
+        "key": "edadPromedioAnios",
+        "readKey": "edad_promedio_anios",
+        "label": "Edad promedio (años)",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "fechaSiembra",
+        "readKey": "fecha_siembra",
+        "label": "Fecha Siembra",
+        "type": "date",
+        "required": false
+      },
+      {
+        "key": "sistemaRiego",
+        "readKey": "sistema_riego",
+        "label": "Sistema Riego",
+        "type": "text",
+        "required": false,
+        "options": [
+          "Goteo",
+          "Aspersion",
+          "Gravedad",
+          "Hidroponia"
+        ]
+      },
+      {
+        "key": "marcoPlantacion",
+        "readKey": "marco_plantacion",
+        "label": "Marco Plantacion",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ],
+    [
+      {
+        "key": "cultivo",
+        "readKey": "cultivo",
+        "label": "Cultivo",
+        "type": "text",
+        "required": false,
+        "options": [
+          "Palta",
+          "Uva",
+          "Arandano",
+          "Citricos",
+          "Otros"
+        ]
+      },
+      {
+        "key": "variedad",
+        "readKey": "variedad",
+        "label": "Variedad",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "cantidadPlantas",
+        "readKey": "cantidad_plantas",
+        "label": "Cantidad de plantas",
+        "type": "number",
+        "required": false,
+        "min": 1,
+        "step": 1
+      },
+      {
+        "key": "edadPromedioAnios",
+        "readKey": "edad_promedio_anios",
+        "label": "Edad promedio (años)",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "fechaSiembra",
+        "readKey": "fecha_siembra",
+        "label": "Fecha Siembra",
+        "type": "date",
+        "required": false
+      },
+      {
+        "key": "sistemaRiego",
+        "readKey": "sistema_riego",
+        "label": "Sistema Riego",
+        "type": "text",
+        "required": false,
+        "options": [
+          "Goteo",
+          "Aspersion",
+          "Gravedad",
+          "Hidroponia"
+        ]
+      },
+      {
+        "key": "marcoPlantacion",
+        "readKey": "marco_plantacion",
+        "label": "Marco Plantacion",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Activo",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "dispositivos": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "deviceUid",
+        "readKey": "device_uid",
+        "label": "Identificador del equipo",
+        "type": "text",
+        "required": true,
+        "maxLength": 100
+      },
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": true,
+        "maxLength": 150
+      },
+      {
+        "key": "tipo",
+        "readKey": "tipo",
+        "label": "Tipo",
+        "type": "text",
+        "required": false,
+        "options": [
+          "ESP32",
+          "ESP8266",
+          "Arduino",
+          "Raspberry Pi",
+          "Custom"
+        ]
+      },
+      {
+        "key": "modelo",
+        "readKey": "modelo",
+        "label": "Modelo",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "firmwareVersion",
+        "readKey": "firmware_version",
+        "label": "Firmware Version",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "macAddress",
+        "readKey": "mac_address",
+        "label": "Mac Address",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      }
+    ],
+    [
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": false,
+        "maxLength": 150
+      },
+      {
+        "key": "tipo",
+        "readKey": "tipo",
+        "label": "Tipo",
+        "type": "text",
+        "required": false,
+        "options": [
+          "ESP32",
+          "ESP8266",
+          "Arduino",
+          "Raspberry Pi",
+          "Custom"
+        ]
+      },
+      {
+        "key": "modelo",
+        "readKey": "modelo",
+        "label": "Modelo",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "firmwareVersion",
+        "readKey": "firmware_version",
+        "label": "Firmware Version",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "macAddress",
+        "readKey": "mac_address",
+        "label": "Mac Address",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "estado",
+        "readKey": "estado",
+        "label": "Estado",
+        "type": "text",
+        "required": false,
+        "options": [
+          "online",
+          "offline",
+          "error",
+          "maintenance"
+        ]
+      },
+      {
+        "key": "bateriaPorcentaje",
+        "readKey": "bateria_porcentaje",
+        "label": "Bateria Porcentaje",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "intensidadSenal",
+        "readKey": "intensidad_senal",
+        "label": "Intensidad Senal",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "ipAddress",
+        "readKey": "ip_address",
+        "label": "Ip Address",
+        "type": "text",
+        "required": false,
+        "maxLength": 64
+      },
+      {
+        "key": "metadata",
+        "readKey": "metadata",
+        "label": "Metadata",
+        "type": "json",
+        "required": false
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Activo",
+        "type": "boolean",
+        "required": false
+      }
+    ]
+  ],
+  "sensores": [
+    [
+      {
+        "key": "dispositivoId",
+        "readKey": "dispositivo_id",
+        "label": "Dispositivo",
+        "type": "text",
+        "required": true,
+        "source": "dispositivos"
+      },
+      {
+        "key": "tipoSensorId",
+        "readKey": "tipo_sensor_id",
+        "label": "Tipo de sensor",
+        "type": "number",
+        "required": true,
+        "source": "sensores/tipos",
+        "min": 1
+      },
+      {
+        "key": "codigo",
+        "readKey": "codigo",
+        "label": "Codigo",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": false,
+        "maxLength": 150
+      },
+      {
+        "key": "modelo",
+        "readKey": "modelo",
+        "label": "Modelo",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "fabricante",
+        "readKey": "fabricante",
+        "label": "Fabricante",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "protocolo",
+        "readKey": "protocolo",
+        "label": "Protocolo",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "pin",
+        "readKey": "pin",
+        "label": "Pin",
+        "type": "text",
+        "required": false,
+        "maxLength": 30
+      },
+      {
+        "key": "valorMinimo",
+        "readKey": "valor_minimo",
+        "label": "Valor Minimo",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "valorMaximo",
+        "readKey": "valor_maximo",
+        "label": "Valor Maximo",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "offsetCalibracion",
+        "readKey": "offset_calibracion",
+        "label": "Offset Calibracion",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "fechaCalibracion",
+        "readKey": "fecha_calibracion",
+        "label": "Fecha Calibracion",
+        "type": "date",
+        "required": false
+      },
+      {
+        "key": "metadata",
+        "readKey": "metadata",
+        "label": "Metadata",
+        "type": "json",
+        "required": false
+      }
+    ],
+    [
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": false,
+        "maxLength": 150
+      },
+      {
+        "key": "modelo",
+        "readKey": "modelo",
+        "label": "Modelo",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "fabricante",
+        "readKey": "fabricante",
+        "label": "Fabricante",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "protocolo",
+        "readKey": "protocolo",
+        "label": "Protocolo",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "pin",
+        "readKey": "pin",
+        "label": "Pin",
+        "type": "text",
+        "required": false,
+        "maxLength": 30
+      },
+      {
+        "key": "valorMinimo",
+        "readKey": "valor_minimo",
+        "label": "Valor Minimo",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "valorMaximo",
+        "readKey": "valor_maximo",
+        "label": "Valor Maximo",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "offsetCalibracion",
+        "readKey": "offset_calibracion",
+        "label": "Offset Calibracion",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "fechaCalibracion",
+        "readKey": "fecha_calibracion",
+        "label": "Fecha Calibracion",
+        "type": "date",
+        "required": false
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Activo",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "key": "metadata",
+        "readKey": "metadata",
+        "label": "Metadata",
+        "type": "json",
+        "required": false
+      }
+    ]
+  ],
+  "tipos-sensor": [
+    [
+      {
+        "key": "codigo",
+        "readKey": "codigo",
+        "label": "Codigo",
+        "type": "text",
+        "required": true,
+        "maxLength": 50
+      },
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": true,
+        "maxLength": 150
+      },
+      {
+        "key": "unidad",
+        "readKey": "unidad",
+        "label": "Unidad",
+        "type": "text",
+        "required": false,
+        "maxLength": 30
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripcion",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "lecturas": [
+    [
+      {
+        "key": "sensorId",
+        "readKey": "sensor_id",
+        "label": "Sensor",
+        "type": "text",
+        "required": true,
+        "source": "sensores"
+      },
+      {
+        "key": "valor",
+        "readKey": "valor",
+        "label": "Valor",
+        "type": "number",
+        "required": true
+      },
+      {
+        "key": "valorRaw",
+        "readKey": "valor_raw",
+        "label": "Valor Raw",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "calidad",
+        "readKey": "calidad",
+        "label": "Calidad",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "recordedAt",
+        "readKey": "recorded_at",
+        "label": "Fecha de lectura (hora de Lima)",
+        "type": "datetime-local",
+        "required": false
+      },
+      {
+        "key": "metadata",
+        "readKey": "metadata",
+        "label": "Metadata",
+        "type": "json",
+        "required": false
+      }
+    ]
+  ],
+  "riegos": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "origen",
+        "readKey": "origen",
+        "label": "Origen",
+        "type": "text",
+        "required": false,
+        "options": [
+          "manual",
+          "automatico",
+          "programado"
+        ]
+      },
+      {
+        "key": "humedadInicial",
+        "readKey": "humedad_inicial",
+        "label": "Humedad Inicial",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ],
+    [
+      {
+        "key": "estado",
+        "readKey": "estado",
+        "label": "Estado",
+        "type": "text",
+        "required": false,
+        "options": [
+          "en_curso",
+          "finalizado",
+          "cancelado",
+          "pausado"
+        ]
+      },
+      {
+        "key": "duracionMinutos",
+        "readKey": "duracion_minutos",
+        "label": "Duracion Minutos",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "step": 1
+      },
+      {
+        "key": "caudalPromedioLmin",
+        "readKey": "caudal_promedio_lmin",
+        "label": "Caudal Promedio Lmin",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "volumenLitros",
+        "readKey": "volumen_litros",
+        "label": "Volumen Litros",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "humedadFinal",
+        "readKey": "humedad_final",
+        "label": "Humedad Final",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "alertas": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "dispositivoId",
+        "readKey": "dispositivo_id",
+        "label": "Dispositivo",
+        "type": "text",
+        "required": false,
+        "source": "dispositivos"
+      },
+      {
+        "key": "sensorId",
+        "readKey": "sensor_id",
+        "label": "Sensor",
+        "type": "text",
+        "required": false,
+        "source": "sensores"
+      },
+      {
+        "key": "tipo",
+        "readKey": "tipo",
+        "label": "Tipo",
+        "type": "text",
+        "required": true,
+        "maxLength": 80
+      },
+      {
+        "key": "prioridad",
+        "readKey": "prioridad",
+        "label": "Prioridad",
+        "type": "text",
+        "required": false,
+        "options": [
+          "alta",
+          "media",
+          "baja"
+        ]
+      },
+      {
+        "key": "titulo",
+        "readKey": "titulo",
+        "label": "Titulo",
+        "type": "text",
+        "required": true,
+        "maxLength": 200
+      },
+      {
+        "key": "mensaje",
+        "readKey": "mensaje",
+        "label": "Mensaje",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "key": "valorDetectado",
+        "readKey": "valor_detectado",
+        "label": "Valor Detectado",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "valorLimite",
+        "readKey": "valor_limite",
+        "label": "Valor Limite",
+        "type": "number",
+        "required": false
+      }
+    ]
+  ],
+  "predicciones": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "modeloId",
+        "readKey": "modelo_id",
+        "label": "Modelo IA",
+        "type": "text",
+        "required": false,
+        "source": "modelos-ia"
+      },
+      {
+        "key": "humedadSuelo",
+        "readKey": "humedad_suelo",
+        "label": "Humedad del suelo (%)",
+        "type": "number",
+        "required": true
+      },
+      {
+        "key": "temperatura",
+        "readKey": "temperatura",
+        "label": "Temperatura (°C)",
+        "type": "number",
+        "required": true
+      },
+      {
+        "key": "humedadRelativa",
+        "readKey": "humedad_relativa",
+        "label": "Humedad relativa (%)",
+        "type": "number",
+        "required": true
+      },
+      {
+        "key": "caudalLmin",
+        "readKey": "caudal_lmin",
+        "label": "Caudal (L/min)",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "diasDesdeUltimoRiego",
+        "readKey": "dias_desde_ultimo_riego",
+        "label": "Dias Desde Ultimo Riego",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "step": 1
+      },
+      {
+        "key": "cantidadPlantas",
+        "readKey": "cantidad_plantas",
+        "label": "Cantidad de plantas",
+        "type": "number",
+        "required": false,
+        "min": 1,
+        "step": 1
+      }
+    ]
+  ],
+  "reportes": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "tipo",
+        "readKey": "tipo",
+        "label": "Tipo",
+        "type": "text",
+        "required": true,
+        "options": [
+          "reporte_mensual",
+          "reporte_riego",
+          "reporte_alertas",
+          "reporte_prediccion",
+          "reporte_personalizado"
+        ]
+      },
+      {
+        "key": "titulo",
+        "readKey": "titulo",
+        "label": "Titulo",
+        "type": "text",
+        "required": true,
+        "maxLength": 250
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripcion",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "key": "fechaInicio",
+        "readKey": "fecha_inicio",
+        "label": "Fecha Inicio",
+        "type": "date",
+        "required": false
+      },
+      {
+        "key": "fechaFin",
+        "readKey": "fecha_fin",
+        "label": "Fecha Fin",
+        "type": "date",
+        "required": false
+      },
+      {
+        "key": "formato",
+        "readKey": "formato",
+        "label": "Formato",
+        "type": "text",
+        "required": false,
+        "options": [
+          "pdf",
+          "excel",
+          "json"
+        ]
+      }
+    ]
+  ],
+  "modelos-ia": [
+    [
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": true,
+        "maxLength": 150
+      },
+      {
+        "key": "version",
+        "readKey": "version",
+        "label": "Version",
+        "type": "text",
+        "required": true,
+        "maxLength": 50
+      },
+      {
+        "key": "algoritmo",
+        "readKey": "algoritmo",
+        "label": "Algoritmo",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripcion",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "key": "objetivo",
+        "readKey": "objetivo",
+        "label": "Objetivo",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "archivoUrl",
+        "readKey": "archivo_url",
+        "label": "Archivo Url",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "configuracion",
+        "readKey": "configuracion",
+        "label": "Configuracion",
+        "type": "json",
+        "required": false
+      },
+      {
+        "key": "features",
+        "readKey": "features",
+        "label": "Features",
+        "type": "array",
+        "required": false
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Activo",
+        "type": "boolean",
+        "required": false
+      }
+    ],
+    [
+      {
+        "key": "nombre",
+        "readKey": "nombre",
+        "label": "Nombre",
+        "type": "text",
+        "required": false,
+        "maxLength": 150
+      },
+      {
+        "key": "version",
+        "readKey": "version",
+        "label": "Version",
+        "type": "text",
+        "required": false,
+        "maxLength": 50
+      },
+      {
+        "key": "algoritmo",
+        "readKey": "algoritmo",
+        "label": "Algoritmo",
+        "type": "text",
+        "required": false,
+        "maxLength": 100
+      },
+      {
+        "key": "mae",
+        "readKey": "mae",
+        "label": "Mae",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "rmse",
+        "readKey": "rmse",
+        "label": "Rmse",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "mape",
+        "readKey": "mape",
+        "label": "Mape",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "r2",
+        "readKey": "r2",
+        "label": "R2",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "archivoUrl",
+        "readKey": "archivo_url",
+        "label": "Archivo Url",
+        "type": "text",
+        "required": false
+      },
+      {
+        "key": "configuracion",
+        "readKey": "configuracion",
+        "label": "Configuracion",
+        "type": "json",
+        "required": false
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Activo",
+        "type": "boolean",
+        "required": false
+      }
+    ]
+  ],
+  "configuracion-alertas": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "humedadMinima",
+        "readKey": "humedad_minima",
+        "label": "Humedad Minima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "humedadMaxima",
+        "readKey": "humedad_maxima",
+        "label": "Humedad Maxima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "temperaturaMinima",
+        "readKey": "temperatura_minima",
+        "label": "Temperatura Minima",
+        "type": "number",
+        "required": false,
+        "min": -20,
+        "max": 50
+      },
+      {
+        "key": "temperaturaMaxima",
+        "readKey": "temperatura_maxima",
+        "label": "Temperatura Maxima",
+        "type": "number",
+        "required": false,
+        "min": -20,
+        "max": 50
+      },
+      {
+        "key": "humedadRelativaMinima",
+        "readKey": "humedad_relativa_minima",
+        "label": "Humedad Relativa Minima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "humedadRelativaMaxima",
+        "readKey": "humedad_relativa_maxima",
+        "label": "Humedad Relativa Maxima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "caudalMinimoLmin",
+        "readKey": "caudal_minimo_lmin",
+        "label": "Caudal Minimo Lmin",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "caudalMaximoLmin",
+        "readKey": "caudal_maximo_lmin",
+        "label": "Caudal Maximo Lmin",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "bateriaMinima",
+        "readKey": "bateria_minima",
+        "label": "Bateria Minima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "dispositivoOfflineMinutos",
+        "readKey": "dispositivo_offline_minutos",
+        "label": "Minutos sin conexión",
+        "type": "number",
+        "required": false,
+        "min": 1,
+        "max": 1440,
+        "step": 1
+      },
+      {
+        "key": "notificacionesActivas",
+        "readKey": "notificaciones_activas",
+        "label": "Notificaciones activas",
+        "type": "boolean",
+        "required": false
+      }
+    ],
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "humedadMinima",
+        "readKey": "humedad_minima",
+        "label": "Humedad Minima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "humedadMaxima",
+        "readKey": "humedad_maxima",
+        "label": "Humedad Maxima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "temperaturaMinima",
+        "readKey": "temperatura_minima",
+        "label": "Temperatura Minima",
+        "type": "number",
+        "required": false,
+        "min": -20,
+        "max": 50
+      },
+      {
+        "key": "temperaturaMaxima",
+        "readKey": "temperatura_maxima",
+        "label": "Temperatura Maxima",
+        "type": "number",
+        "required": false,
+        "min": -20,
+        "max": 50
+      },
+      {
+        "key": "humedadRelativaMinima",
+        "readKey": "humedad_relativa_minima",
+        "label": "Humedad Relativa Minima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "humedadRelativaMaxima",
+        "readKey": "humedad_relativa_maxima",
+        "label": "Humedad Relativa Maxima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "caudalMinimoLmin",
+        "readKey": "caudal_minimo_lmin",
+        "label": "Caudal Minimo Lmin",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "caudalMaximoLmin",
+        "readKey": "caudal_maximo_lmin",
+        "label": "Caudal Maximo Lmin",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "bateriaMinima",
+        "readKey": "bateria_minima",
+        "label": "Bateria Minima",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "dispositivoOfflineMinutos",
+        "readKey": "dispositivo_offline_minutos",
+        "label": "Minutos sin conexión",
+        "type": "number",
+        "required": false,
+        "min": 1,
+        "max": 1440,
+        "step": 1
+      },
+      {
+        "key": "notificacionesActivas",
+        "readKey": "notificaciones_activas",
+        "label": "Notificaciones activas",
+        "type": "boolean",
+        "required": false
+      }
+    ]
+  ],
+  "finalizar": [
+    [
+      {
+        "key": "humedadFinal",
+        "readKey": "humedad_final",
+        "label": "Humedad Final",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "volumenLitros",
+        "readKey": "volumen_litros",
+        "label": "Volumen Litros",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "caudalPromedioLmin",
+        "readKey": "caudal_promedio_lmin",
+        "label": "Caudal Promedio Lmin",
+        "type": "number",
+        "required": false
+      },
+      {
+        "key": "duracionMinutos",
+        "readKey": "duracion_minutos",
+        "label": "Duracion Minutos",
+        "type": "number",
+        "required": false,
+        "min": 0,
+        "step": 1
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "calibrar": [
+    [
+      {
+        "key": "offset",
+        "readKey": "offset",
+        "label": "Ajuste de calibración",
+        "type": "number",
+        "required": true
+      }
+    ]
+  ],
+  "atender": [
+    [
+      {
+        "key": "accion",
+        "readKey": "accion",
+        "label": "Accion",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "perfil": [
+    [],
+    [
+      {
+        "key": "fullName",
+        "readKey": "full_name",
+        "label": "Nombre completo",
+        "type": "text",
+        "required": true,
+        "maxLength": 200
+      },
+      {
+        "key": "telefono",
+        "readKey": "telefono",
+        "label": "Teléfono",
+        "type": "text",
+        "required": false,
+        "maxLength": 30
+      }
+    ]
+  ],
+  "usuarios": [
+    [],
+    [
+      {
+        "key": "roleId",
+        "readKey": "role_id",
+        "label": "Rol",
+        "type": "number",
+        "required": true,
+        "source": "gestion/roles",
+        "min": 1,
+        "step": 1
+      },
+      {
+        "key": "activo",
+        "readKey": "activo",
+        "label": "Cuenta activa",
+        "type": "boolean",
+        "required": true
+      }
+    ]
+  ],
+  "sistema": [
+    [
+      {
+        "key": "clave",
+        "readKey": "clave",
+        "label": "Clave",
+        "type": "text",
+        "required": true,
+        "maxLength": 100
+      },
+      {
+        "key": "valor",
+        "readKey": "valor",
+        "label": "Configuración (JSON)",
+        "type": "json",
+        "required": true
+      },
+      {
+        "key": "descripcion",
+        "readKey": "descripcion",
+        "label": "Descripción",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ],
+  "accesos": [
+    [
+      {
+        "key": "parcelaId",
+        "readKey": "parcela_id",
+        "label": "Parcela",
+        "type": "text",
+        "required": true,
+        "source": "parcelas"
+      },
+      {
+        "key": "usuarioEmail",
+        "readKey": "usuario_email",
+        "label": "Correo del usuario",
+        "type": "email",
+        "required": true
+      },
+      {
+        "key": "nivelAcceso",
+        "readKey": "nivel_acceso",
+        "label": "Nivel de acceso",
+        "type": "text",
+        "required": true,
+        "options": [
+          "admin",
+          "editor",
+          "tecnico",
+          "lector"
+        ]
+      }
+    ],
+    [
+      {
+        "key": "nivelAcceso",
+        "readKey": "nivel_acceso",
+        "label": "Nivel de acceso",
+        "type": "text",
+        "required": true,
+        "options": [
+          "admin",
+          "editor",
+          "tecnico",
+          "lector"
+        ]
+      }
+    ]
+  ],
+  "evaluaciones": [
+    [
+      {
+        "key": "prediccionId",
+        "readKey": "prediccion_id",
+        "label": "Predicción",
+        "type": "text",
+        "required": true,
+        "source": "predicciones"
+      },
+      {
+        "key": "humedadObservada",
+        "readKey": "humedad_observada",
+        "label": "Humedad observada (%)",
+        "type": "number",
+        "required": true,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "key": "tiempoObservadoHoras",
+        "readKey": "tiempo_observado_horas",
+        "label": "Tiempo observado (h)",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "volumenObservadoLitros",
+        "readKey": "volumen_observado_litros",
+        "label": "Volumen observado (L)",
+        "type": "number",
+        "required": false,
+        "min": 0
+      },
+      {
+        "key": "observaciones",
+        "readKey": "observaciones",
+        "label": "Observaciones",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  ]
+}

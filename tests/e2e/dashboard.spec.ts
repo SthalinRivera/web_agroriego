@@ -74,8 +74,21 @@ const row = {
 
 test.beforeEach(async ({ page }) => {
   page.on('pageerror', error => console.error('PAGE ERROR:', error.message))
-  page.on('requestfailed', request => console.error('REQUEST FAILED:', new URL(request.url()).pathname, request.failure()?.errorText))
-  page.on('response', (response) => { if (response.status() >= 400) console.error('HTTP ERROR:', response.status(), new URL(response.url()).pathname) })
+  page.on('requestfailed', request =>
+    console.error(
+      'REQUEST FAILED:',
+      new URL(request.url()).pathname,
+      request.failure()?.errorText
+    )
+  )
+  page.on('response', (response) => {
+    if (response.status() >= 400)
+      console.error(
+        'HTTP ERROR:',
+        response.status(),
+        new URL(response.url()).pathname
+      )
+  })
   const exp = Math.floor(Date.now() / 1000) + 86400
   const accessToken = [
     Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString(
@@ -302,4 +315,144 @@ test('mobile dashboard opens navigation without horizontal overflow', async ({
     path: 'test-results/dashboard-mobile.png',
     fullPage: true
   })
+})
+
+test('creates a parcel with numeric DTO fields and preserves API errors', async ({
+  page
+}) => {
+  await page.route(apiBase.replace(/\/$/, '') + '/parcelas', async (route) => {
+    if (route.request().method() !== 'POST') return route.fallback()
+    await route.fulfill({
+      status: 400,
+      json: { message: 'Nombre ya registrado' }
+    })
+  })
+  await page.goto('/dashboard/parcelas')
+  await page.getByRole('button', { name: 'Nuevo registro' }).click()
+  const dialog = page.getByRole('dialog')
+  await dialog
+    .getByLabel('Nombre', { exact: false })
+    .first()
+    .fill('Parcela nueva')
+  await dialog.getByLabel('Área (ha)').fill('2.75')
+  const sent = page.waitForRequest(
+    r => r.method() === 'POST' && new URL(r.url()).pathname === '/parcelas'
+  )
+  await dialog.getByRole('button', { name: 'Guardar cambios' }).click()
+  expect((await sent).postDataJSON()).toEqual({
+    nombre: 'Parcela nueva',
+    areaHectareas: 2.75
+  })
+  await expect(dialog.getByText('Nombre ya registrado')).toBeVisible()
+  await expect(dialog.getByLabel('Área (ha)')).toHaveValue('2.75')
+})
+
+test('notification tray marks all notifications read using the API', async ({
+  page
+}) => {
+  await page.goto('/dashboard')
+  await page.getByRole('button', { name: /Abrir notificaciones/ }).click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog.getByText('Mensaje de prueba')).toBeVisible()
+  const sent = page.waitForRequest(
+    r =>
+      r.method() === 'PUT'
+      && new URL(r.url()).pathname === '/notificaciones/leer-todas'
+  )
+  await dialog.getByRole('button', { name: 'Leer todas', exact: true }).click()
+  await sent
+})
+
+test('all creation forms load their required relationship options', async ({
+  page
+}) => {
+  test.setTimeout(120000)
+  for (const key of [
+    'cultivos',
+    'dispositivos',
+    'sensores',
+    'tipos-sensor',
+    'lecturas',
+    'riegos',
+    'alertas',
+    'predicciones',
+    'modelos-ia',
+    'reportes',
+    'configuracion-alertas'
+  ]) {
+    await page.goto('/dashboard/' + key)
+    await page
+      .getByRole('button', {
+        name: /^(Nuevo registro|Generar predicción|Configurar umbrales)$/
+      })
+      .click()
+    const dialog = page.getByRole('dialog')
+    await expect(dialog.getByText('Cargando formulario…')).toHaveCount(0)
+    await expect(
+      dialog.getByRole('button', { name: 'Guardar cambios' })
+    ).toBeEnabled()
+    await expect(
+      dialog.locator('input, select, textarea').first()
+    ).toBeVisible()
+  }
+})
+
+test('additional database modules and admin navigation load with authorized responses', async ({
+  page
+}) => {
+  test.setTimeout(120000)
+  await page.route(apiBase.replace(/\/$/, '') + '/auth/profile', route =>
+    route.fulfill({
+      json: {
+        id: owner,
+        nombres: 'Ana',
+        apellidos: 'Prueba',
+        email: 'test@example.com',
+        estado: true,
+        roles: [{ id: 1, nombre: 'Administrador', codigo: 'admin' }]
+      }
+    })
+  )
+  await page.route(apiBase.replace(/\/$/, '') + '/gestion/**', (route) => {
+    const path = new URL(route.request().url()).pathname
+    const record = {
+      ...row,
+      id: owner,
+      full_name: 'Ana Prueba',
+      role_id: 1,
+      roles: { nombre: 'Administrador' },
+      clave: 'riego',
+      valor: { enabled: true }
+    }
+    return route.fulfill({
+      json:
+        path === '/gestion/perfil'
+          ? record
+          : ['/gestion/roles', '/gestion/sistema'].includes(path)
+              ? [record]
+              : {
+                  data: [record],
+                  meta: { total: 1, page: 1, limit: 20, totalPages: 1 }
+                }
+    })
+  })
+  for (const key of [
+    'eventos',
+    'evaluaciones',
+    'accesos',
+    'auditoria',
+    'dispositivos-push',
+    'perfil',
+    'usuarios',
+    'roles',
+    'sistema'
+  ]) {
+    await page.goto('/dashboard/' + key)
+    await expect(
+      page.getByRole('button', { name: 'Ver detalle' }).first()
+    ).toBeVisible()
+    await expect(
+      page.getByRole('link', { name: 'Usuarios', exact: true })
+    ).toBeVisible()
+  }
 })

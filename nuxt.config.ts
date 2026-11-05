@@ -1,12 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
-  vite: {
-    optimizeDeps: {
-      include: ['@vue/devtools-kit', '@supabase/supabase-js']
-    }
-  },
-
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
@@ -17,7 +11,7 @@ export default defineNuxtConfig({
     enabled: true
   },
 
-  css: ['~/assets/css/main.css'], colorMode: { preference: 'light' },
+  css: ['~/assets/css/main.css'], colorMode: { preference: 'light' }, ui: { fonts: false },
 
   runtimeConfig: {
     public: {
@@ -34,7 +28,11 @@ export default defineNuxtConfig({
       cors: true
     }
   },
-  compatibilityDate: '2024-07-11',
+  compatibilityDate: '2024-07-11', vite: {
+    optimizeDeps: {
+      include: ['@vue/devtools-kit', '@supabase/supabase-js']
+    }
+  },
 
   eslint: {
     config: {
