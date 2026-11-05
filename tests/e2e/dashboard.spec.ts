@@ -456,3 +456,16 @@ test('additional database modules and admin navigation load with authorized resp
     ).toBeVisible()
   }
 })
+
+test('sharing and evaluation forms expose the required fields', async ({ page }) => {
+  await page.goto('/dashboard/accesos')
+  await page.getByRole('button', { name: 'Nuevo registro' }).click()
+  let dialog = page.getByRole('dialog')
+  await expect(dialog.getByLabel('Correo del usuario')).toBeVisible()
+  await expect(dialog.getByLabel('Nivel de acceso')).toBeVisible()
+  await page.goto('/dashboard/evaluaciones')
+  await page.getByRole('button', { name: 'Nuevo registro' }).click()
+  dialog = page.getByRole('dialog')
+  await expect(dialog.getByLabel('Humedad observada (%)')).toBeVisible()
+  await expect(dialog.getByRole('button', { name: 'Guardar cambios' })).toBeEnabled()
+})

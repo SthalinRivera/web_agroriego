@@ -57,7 +57,15 @@ const nested = (value: unknown) => value !== null && typeof value === 'object'
           {{ labelFor(key) }}
         </dt>
         <dd class="break-words whitespace-pre-wrap">
-          <a v-if="key.endsWith('_url') && typeof item === 'string' && /^https?:\/\//i.test(item)" :href="item" target="_blank" rel="noopener noreferrer" class="text-primary underline">Abrir archivo o enlace</a><template v-else>{{ displayValue(item, Array.isArray(value) ? undefined : key) }}</template>
+          <a
+            v-if="key.endsWith('_url') && typeof item === 'string' && /^https?:\/\//i.test(item)"
+            :href="item"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary underline"
+          >Abrir archivo o enlace</a><template v-else>
+            {{ displayValue(item, Array.isArray(value) ? undefined : key) }}
+          </template>
         </dd>
       </template>
     </div>
